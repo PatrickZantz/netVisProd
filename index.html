@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Semantische Ähnlichkeitsanalyse</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/universal-sentence-encoder"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vis-network@9.1.0/dist/vis-network.min.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .container {
+        display: flex;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+        overflow: hidden;
+        width: 90%;
+        max-width: 1200px;
+        height: 80vh;
+      }
+      #controls {
+        width: 30%;
+        padding: 2rem;
+        background: #ffffff;
+        border-right: 1px solid #e0e0e0;
+      }
+      #network {
+        width: 70%;
+        height: 100%;
+        background: #f9f9f9;
+      }
+      h2 {
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+      }
+      input[type="file"],
+      input[type="text"],
+      input[type="range"],
+      button {
+        width: 100%;
+        padding: 0.8rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-family: "Poppins", sans-serif;
+      }
+      input[type="file"] {
+        background: #f0f0f0;
+        cursor: pointer;
+      }
+      button {
+        background: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+      button:hover {
+        background: #45a049;
+      }
+      .slider-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+      #similarity-value {
+        margin-left: 1rem;
+        font-weight: 600;
+        color: #4caf50;
+      }
+      #loading-spinner {
+        display: none;
+        text-align: center;
+        color: #4caf50;
+        font-weight: 600;
+      }
+      .checkbox-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+      .checkbox-container input[type="checkbox"] {
+        margin-right: 0.5rem;
+      }
+
+      #loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .loading-content {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        text-align: center;
+      }
+
+      .spinner {
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #3498db;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 1rem;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .hidden {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="controls">
+        <h2>Semantische Analyse</h2>
+        <input type="file" id="file-input" accept=".txt,.csv" />
+        <div class="slider-container">
+          <input
+            type="range"
+            id="similarity-slider"
+            min="0.4"
+            max="1"
+            step="0.01"
+            value="0.7"
+          />
+          <span id="similarity-value">0.7</span>
+        </div>
+        <input type="text" id="search-input" placeholder="Begriff suchen..." />
+        <button id="clear-search">Suche zurücksetzen</button>
+        <div class="checkbox-container">
+          <input type="checkbox" id="physics-toggle" />
+          <label for="physics-toggle">Physik aktivieren</label>
+        </div>
+        <div id="loading-spinner">Analysiere Begriffe...</div>
+      </div>
+      <div id="network"></div>
+    </div>
+    <div id="loading-overlay" class="hidden">
+      <div class="loading-content">
+        <div class="spinner"></div>
+        <p id="loading-message">Analysiere... 0%</p>
+      </div>
+    </div>
+
+    <script src="./src/main.js"></script>
+  </body>
+</html>

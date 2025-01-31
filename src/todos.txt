@@ -1,0 +1,8 @@
+- Liste per Dateidialog hochladen (csv)
+
+
+Wenn Du magst, kannst Du gerne mal schauen, ob Du soetwas wie eine Beziehung zwischen den Begriffen ableiten kannst. Ich denke da für jedes Paar Begriffe an eine Zahl zwischen 0 und 1 die beschreibt wie nah die Begriffe sich stehen. Dabei kann z.B: sein: 1 der selbe Begriff, 0.95 ein gutes Synonym, 0.7 ein Begriff der gleichen Kategorie etc...
+
+Als Ergebnis schwebt mir eine Art Matrix vor, in der die Ähnlichkeit für jedes mögliche Paar enthalten ist. Als in diesem Fall 74*74 Werte, von denen jeder ein Paar Begriffe (bzw. Zeilen) beschreibt. Die Werte dazu müssen auch nicht diskret sein, sondern können sich auch auf einer (quasi) kontinuierlichen Skala bewegen. Dabei ist ja die exakte Bedeutung jedes Wertes egal, wichtig ist nur, dass die Enden der Skala (also 0 und 1) fest sind.
+
+Ich vermute, dass dieses Problem ganz gut für KI geeignet sein müsste. Für die Versuche die ich dazu bisher gemacht habe, habe ich ja auch ein vortrainiertes Sprachmodell verwendet (siehe hier: https://spacy.io/models/de#de_core_news_lg). Nur leider waren die Ergebnisse da nicht so gut; vmtl. weil die zugrunde liegenden Texte aus anderen Bereichen kommen.
